@@ -1,0 +1,229 @@
+package com.SimpleCalculatorApp;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText editText;
+    private String currentExpression = "";
+    private String lastOperator = "";
+    private double result = 0.0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editText = findViewById(R.id.editText);
+
+        int[] numberButtonIds = {
+                R.id.button0, R.id.button1, R.id.button2, R.id.button3,
+                R.id.button4, R.id.button5, R.id.button6, R.id.button7,
+                R.id.button8, R.id.button9
+        };
+
+        for (int id : numberButtonIds) {
+            Button button = findViewById(id);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Button b = (Button) v;
+                    currentExpression += b.getText().toString();
+                    editText.setText(currentExpression);
+                }
+            });
+        }
+
+        int[] operatorButtonIds = {
+                R.id.buttonAdd, R.id.buttonSubtract, R.id.buttonMultiply, R.id.buttonDivide
+        };
+
+        for (int id : operatorButtonIds) {
+            Button button = findViewById(id);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Button b = (Button) v;
+                    calculateResult();
+                    lastOperator = b.getText().toString();
+                    currentExpression += " " + lastOperator + " ";
+                    editText.setText(currentExpression);
+                }
+            });
+        }
+
+        Button buttonEqual = findViewById(R.id.buttonEqual);
+        buttonEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateResult();
+                editText.setText(String.valueOf(result));
+                currentExpression = String.valueOf(result);
+                lastOperator = "";
+            }
+        });
+
+        Button buttonClear = findViewById(R.id.buttonClear);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentExpression = "";
+                lastOperator = "";
+                result = 0.0;
+                editText.setText("");
+            }
+        });
+    }
+
+    private void calculateResult() {
+        if (!lastOperator.isEmpty()) {
+            String[] tokens = currentExpression.split(" ");
+            double operand = Double.parseDouble(tokens[tokens.length - 1]);
+
+            switch (lastOperator) {
+                case "+":
+                    result += operand;
+                    break;
+                case "-":
+                    result -= operand;
+                    break;
+                case "*":
+                    result *= operand;
+                    break;
+                case "/":
+                    if (operand != 0) {
+                        result /= operand;
+                    } else {
+                        editText.setText("Error");
+                        currentExpression = "";
+                        lastOperator = "";
+                        result = 0.0;
+                        return;
+                    }
+                    break;
+            }
+
+            editText.setText(String.valueOf(result));
+        } else {
+            result = Double.parseDouble(currentExpression);
+        }
+    }
+}package com.ka1.kandi;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    private EditText editText;
+    private String currentExpression = "";
+    private String lastOperator = "";
+    private double result = 0.0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editText = findViewById(R.id.editText);
+
+        int[] numberButtonIds = {
+                R.id.button0, R.id.button1, R.id.button2, R.id.button3,
+                R.id.button4, R.id.button5, R.id.button6, R.id.button7,
+                R.id.button8, R.id.button9
+        };
+
+        for (int id : numberButtonIds) {
+            Button button = findViewById(id);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Button b = (Button) v;
+                    currentExpression += b.getText().toString();
+                    editText.setText(currentExpression);
+                }
+            });
+        }
+
+        int[] operatorButtonIds = {
+                R.id.buttonAdd, R.id.buttonSubtract, R.id.buttonMultiply, R.id.buttonDivide
+        };
+
+        for (int id : operatorButtonIds) {
+            Button button = findViewById(id);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Button b = (Button) v;
+                    calculateResult();
+                    lastOperator = b.getText().toString();
+                    currentExpression += " " + lastOperator + " ";
+                    editText.setText(currentExpression);
+                }
+            });
+        }
+
+        Button buttonEqual = findViewById(R.id.buttonEqual);
+        buttonEqual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calculateResult();
+                editText.setText(String.valueOf(result));
+                currentExpression = String.valueOf(result);
+                lastOperator = "";
+            }
+        });
+
+        Button buttonClear = findViewById(R.id.buttonClear);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentExpression = "";
+                lastOperator = "";
+                result = 0.0;
+                editText.setText("");
+            }
+        });
+    }
+
+    private void calculateResult() {
+        if (!lastOperator.isEmpty()) {
+            String[] tokens = currentExpression.split(" ");
+            double operand = Double.parseDouble(tokens[tokens.length - 1]);
+
+            switch (lastOperator) {
+                case "+":
+                    result += operand;
+                    break;
+                case "-":
+                    result -= operand;
+                    break;
+                case "*":
+                    result *= operand;
+                    break;
+                case "/":
+                    if (operand != 0) {
+                        result /= operand;
+                    } else {
+                        editText.setText("Error");
+                        currentExpression = "";
+                        lastOperator = "";
+                        result = 0.0;
+                        return;
+                    }
+                    break;
+            }
+
+            editText.setText(String.valueOf(result));
+        } else {
+            result = Double.parseDouble(currentExpression);
+        }
+    }
+}
